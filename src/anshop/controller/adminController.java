@@ -31,6 +31,7 @@ import shop.entity.order;
 import shop.entity.orderDetail;
 import shop.entity.product;
 import shop.entity.productDetail;
+import shop.entity.user;;
 
 @Transactional
 @Controller
@@ -551,5 +552,49 @@ public class adminController {
 
 		}
 		return "redirect:/admin/product.htm";
+	}
+	
+	@RequestMapping("user")
+	public String user(Model model) {
+		Session s = factory.openSession();
+		Transaction t = s.beginTransaction();
+		String hql = "from user ";
+		Query query = s.createQuery(hql);
+		List<user> userlist = query.list();
+		model.addAttribute("userlist", userlist);
+		return "admin/user";
+	}
+	
+	@RequestMapping("deleteuser")
+	public String deleteUser(Model model, @RequestParam("username") String username) {
+		Session s = factory.openSession();
+		Transaction t = s.beginTransaction();
+		String hql = "from user ";
+		Query query = s.createQuery(hql);
+		List<user> list = query.list();
+		user gr  = new user();
+		tb="";
+		System.out.print(username);
+		for (user a : list) {
+			if (a.getUsername().equals(username)) {
+				gr = (user) s.load(user.class, username);
+				
+			}
+		}
+		try {
+			s.delete(gr);
+			tb="Xóa thành công";
+			model.addAttribute("tb", tb);
+			t.commit();
+			this.getgr();
+		} catch (Exception e) {
+			t.rollback();
+			tb="Xóa thất bại";
+			model.addAttribute("tb", tb);
+		}
+		finally {
+			s.close();
+		}
+		return "redirect:/admin/user.htm";
 	}
 }

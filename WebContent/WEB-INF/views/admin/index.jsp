@@ -23,9 +23,10 @@ integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jI
             </div>
             <div class="right-header">
                 <ul>
-                    <li><a href="../anshop-final/admin/product.htm">Quản lý sản phẩm</a></li>
-                    <li><a href="../anshop-final/admin/donhang.htm">Quản lý đơn hàng</a></li>
-                    <li><a href="../anshop-final/admin/group-product.htm">Quản lý nhóm</a></li>
+                	<li><a href="../anshop-final/admin/donhang.htm">Đơn hàng</a></li>
+                    <li><a href="../anshop-final/admin/product.htm">Sản phẩm</a></li>
+                    <li><a href="../anshop-final/admin/group-product.htm">Nhóm sản phẩm</a></li>
+                    <li><a href="../anshop-final/admin/user.htm">Thành viên</a></li>
                 </ul>
             </div>
         </div>
