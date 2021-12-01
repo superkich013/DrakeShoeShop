@@ -451,7 +451,7 @@ public class MainController {
 					////////////////////////////////////
 					//////////////////////////////////////
 					Date date = new Date();
-					String from="anshop1.1.1.1@gmail.com";
+					String from="drakeshop465@gmail.com";
 					String to=mailgui;
 					String subject="Quên mật khẩu";
 					String body="Bạn đã báo quên mật khẩu vào "+date+"  mật khẩu mới của bạn là "+matkhaumoi+"\n Nếu bạn không thực hiện yêu cầu trên , vui lòng liên hệ quản trị viên ngay";
@@ -549,10 +549,11 @@ public class MainController {
 	JavaMailSender mailer1;
 	public void thongbao(int madonhang, String email,String tenkh) {
 					Date date = new Date();
-					String from="anshop1.1.1.1@gmail.com";
+					String from="drakeshop465@gmail.com";
 					String to= email;
 					String subject="Đặt hàng thành công !";
-					String body="Xin chào "+tenkh+" đơn hàng số "+madonhang+" của bạn đã đc tạo thành công vào lúc "+date+" . Nhân viên cửa hàng sẽ gửi hàng cho bạn trong thời gian sớm nhất. \n Xin cảm ơn!";
+					String body="Xin chào "+tenkh+" đơn hàng số "+madonhang+" của bạn đã đc tạo thành công vào lúc "+date+" . "
+							+ "Nhân viên cửa hàng sẽ gửi hàng cho bạn trong thời gian sớm nhất. \n Xin cảm ơn!";
 					try {
 						MimeMessage mail = mailer.createMimeMessage();
 						MimeMessageHelper helper= new MimeMessageHelper(mail);

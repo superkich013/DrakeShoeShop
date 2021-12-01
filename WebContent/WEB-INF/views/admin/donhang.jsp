@@ -4,8 +4,10 @@
 <!DOCTYPE html>
 <html>
 <head>
+<!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 <meta charset="utf-8">
-<title>N17DCAT001</title>
+<title>Quản lý đơn hàng</title>
 <base href="${pageContext.servletContext.contextPath }" />
 <style>
 <%@ include file="/resources/css/reset.css"%>
@@ -22,14 +24,15 @@
                 <ul>
                     <li><a href="../anshop-final/admin/product.htm">Quản lý sản phẩm</a></li>
                     <li><a href="../anshop-final/admin/donhang.htm">Quản lý đơn hàng</a></li>
+                    <li><a href="../anshop-final/admin/group-product.htm">Quản lý nhóm</a></li>
                 </ul>
             </div>
         </div>
     </div>
     <div class="main">
         <div class="main-right" style="width: 100%; padding-left: 60px;">
-            <table>
-                <tr>
+            <table class="table table-light table-hover">
+                <tr class="bg-info">
                 	<th>Mã đơn hàng</th>
                 	<th>Ngày</th>
                     <th>Tên KH</th>

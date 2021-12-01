@@ -93,11 +93,11 @@
                     <h1 style="margin-bottom: 20px;">Đăng Nhập</h1>
                     <div class="usern">
                         <label for="uname"><b>Username</b></label>
-                        <input autocomplete="new-password" type="text" placeholder="Tài khoản" name="user" required>
+                        <input autocomplete="new-password" type="text" placeholder="Tài khoản" name="id" required>
                     </div>
                     <div class="usern">
                         <label for="psw"><b>Password</b></label>
-                        <input autocomplete="new-password" type="password" placeholder="Mật khẩu" name="pass" required>
+                        <input autocomplete="new-password" type="password" placeholder="Mật khẩu" name="password" required>
                     </div>
                     <button>Đăng nhập</button>
                      <div class="login-bottom" style="margin-top: 20px;">

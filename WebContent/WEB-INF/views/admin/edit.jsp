@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>N17DCAT001</title>
+<title>Chỉnh sửa sản phẩm</title>
 <base href="${pageContext.servletContext.contextPath }" />
 <style>
 <%@ include file="/resources/css/reset.css"%>
@@ -20,9 +20,9 @@
             </div>
             <div class="right-header">
                 <ul>
-                    <li><a href="">Quản lý sản phẩm</a></li>
-                    <li><a href="">Quản lý đơn hàng</a></li>
-                    <li><a href="">Thống kê</a></li>
+                    <li><a href="../anshop-final/admin/product.htm">Quản lý sản phẩm</a></li>
+                    <li><a href="../anshop-final/admin/donhang.htm">Quản lý đơn hàng</a></li>
+                    <li><a href="../anshop-final/admin/group-product.htm">Quản lý nhóm</a></li>
                 </ul>
             </div>
         </div>

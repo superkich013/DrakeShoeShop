@@ -8,7 +8,7 @@
 <!-- CSS only -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" 
 integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-<title>N17DCAT001</title>
+<title>Drake's Admin</title>
 <base href="${pageContext.servletContext.contextPath }" />
 <style>
 <%@ include file="/resources/css/reset.css"%>
@@ -25,6 +25,7 @@ integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jI
                 <ul>
                     <li><a href="../anshop-final/admin/product.htm">Quản lý sản phẩm</a></li>
                     <li><a href="../anshop-final/admin/donhang.htm">Quản lý đơn hàng</a></li>
+                    <li><a href="../anshop-final/admin/group-product.htm">Quản lý nhóm</a></li>
                 </ul>
             </div>
         </div>

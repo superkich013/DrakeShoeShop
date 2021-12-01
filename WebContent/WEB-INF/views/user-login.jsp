@@ -103,7 +103,7 @@
                     </div>
                     <button>Đăng nhập</button>
                      <div class="login-bottom" style="margin-top: 20px;">
-                    	<span><a href="#" style="color: black; font-size: 14px;">Quên mật khẩu?</a></span>
+                    	<span><a href="${pageContext.request.contextPath}/home/forget-pass.htm" style="color: black; font-size: 14px;">Quên mật khẩu?</a></span>
                     	<span><a href="${pageContext.request.contextPath}/home/sign-up.htm" style="color: black; font-size: 14px;">Đăng kí?</a></span>
                 	</div>
                 </form>

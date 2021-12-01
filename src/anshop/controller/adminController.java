@@ -64,15 +64,26 @@ public class adminController {
 		return "admin/login";
 	}
 	
-//	@RequestMapping("product")
-//	public String pr(Model model, @ModelAttribute("prod") product pr) {
-//		return "admin/index";
-//	}
+	@ModelAttribute("grpr")
+	public List<groupProduct> getgr() {
+		Session s = factory.getCurrentSession();
+		String hql = "from groupProduct";
+		Query query = s.createQuery(hql);
+		List<groupProduct> list = query.list();
+		return list;
+	}
+	
 	@RequestMapping("donhang")
 	public String dh(Model model) {
 
 		return "admin/donhang";
 	}
+	
+	@RequestMapping("group-product")
+	public String togpd() {
+		return "admin/group-product";
+	}
+	
 	String tb="";
 	@RequestMapping(value = "gr-product", method = RequestMethod.POST)
 	public String them(Model model, HttpServletRequest re) {
@@ -220,14 +231,7 @@ public class adminController {
 		return "redirect:/admin/product.htm";
 	}
 
-	@ModelAttribute("grpr")
-	public List<groupProduct> getgr() {
-		Session s = factory.getCurrentSession();
-		String hql = "from groupProduct";
-		Query query = s.createQuery(hql);
-		List<groupProduct> list = query.list();
-		return list;
-	}
+	
 
 	@ModelAttribute("prr")
 	public List<product> getgrr() {
