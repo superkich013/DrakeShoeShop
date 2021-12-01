@@ -28,17 +28,15 @@
 <body>
 	<header>
 		<div class="container">
-			<div class="logo">
-				<a href=""><img
-					src=" ${pageContext.request.contextPath}/resources/img/logo/AN.png" alt=""></a>
-			</div>
 			<div class="contener1">
-					<ul class="navbar">
-						<c:forEach var="menu1" items="${menu}">
+					<ul class="navbar" style="padding-top: 10px; padding-bottom: 10px;">
+					<a href=""><img src=" ${pageContext.request.contextPath}/resources/img/logo/HLogo.PNG" alt="" width="230px" height="75px" style="margin-bottom: 10px; margin-top: 10px;"></a>
+					<c:forEach var="menu1" items="${menu}">
 							<c:if test="${menu1.parentid==null}">
 								<li>
 									<a href="${pageContext.request.contextPath}/${menu1.link}">${menu1.name}</a>
-									<div class="sub-menu">
+									<c:if test="${menu1.name=='Sản Phẩm'}">
+										<div class="sub-menu">
 										<div class="sub-menu1">
 											<ul>
 												<c:forEach var="menu2" items="${menu}">
@@ -49,16 +47,18 @@
 											</ul>
 										</div>
 									</div>
+									</c:if>
 								</li>
 							</c:if>
 						</c:forEach>
 					</ul>
                 <div class="navbar-right">
                     <div class="search">
-                        <input class="ip-search" />
-                        <button><i class="fas fa-search icon-search"></i></button>
+                    	<form action="home/search.htm" method="post">
+                    		<input class="ip-search" name="search"/>
+                        	<button type="submit"><i class="fas fa-search icon-search"></i></button>
+                    	</form>
                     </div>
-                    <button><i class="fas fa-shopping-cart"></i></button>
                     <button onclick="document.getElementById('user').style.display='block'"><i class="fas fa-user"></i></button>
                 </div>
 			</div>
@@ -67,24 +67,33 @@
             <span onclick="document.getElementById('user').style.display='none'" class="close" title="Close Modal">&times;</span>
             <div class="user-content">
                 <div class="content-top">
-                    <i class="fas fa-user-circle"></i>
-                    <a href="">${username}</a>
+                    <c:if test="${username != 'Guest'}">
+                    	<i class="fas fa-user-circle"></i>
+                    	<a href="${pageContext.request.contextPath}/home/user.htm?username=${username}" style="font-size: 14px;">${user.fullname}</a>
+                   	</c:if>
                 </div>
                 <div class="content-bottom">
-                    <button > <a href="${pageContext.request.contextPath}/home/login.htm"> Đăng nhập</a> </button>
-                    <button > <a href="${pageContext.request.contextPath}/home/sign-up.htm"> Đăng kí</a> </button>
-                    <button > <a href="${pageContext.request.contextPath}/admin/login.htm"> Admin</a> </button>
+                    <c:choose>
+                    	<c:when test="${username=='Guest'}">
+                    		<button > <a href="${pageContext.request.contextPath}/home/login.htm"> Đăng nhập</a> </button>
+                    		<button > <a href="${pageContext.request.contextPath}/home/sign-up.htm"> Đăng kí</a> </button>
+                    		<button > <a href="${pageContext.request.contextPath}/admin/login.htm"> Admin</a> </button>
+                    	</c:when>
+                    	<c:otherwise><button > <a href="${pageContext.request.contextPath}/home/login.htm"> Đăng xuất</a> </button></c:otherwise>
+                    </c:choose>
                 </div>
             </div>
         </div>
 	</header>
 	<div class="login-container">
+		<div class="login-img">
+			<img alt="" src="${pageContext.request.contextPath}/resources/img/login/login.jpg" style="height: 600px; width: 400px;">
+		</div>
         <div id="login" class="login-box">
             <div class="login-content">
                 <img src="/img/AN.png" alt="">
-                <h2>${tb}</h2>
+                <lable>${tinnhan}</lable>
                 <h1>Quên mật khẩu</h1>
-                <h4>${tinnhan}</h4>
                 <form class="login-form"  action="${pageContext.request.contextPath}/home/forget-pass.htm" method="post">
                     <div class="usern">
                         <label for="uname"><b>Username</b></label>
@@ -92,27 +101,21 @@
                     </div>
                     <button >Gửi mail</button>
                 </form>
-                <div class="login-bottom">
-                     <button><a  href="${pageContext.request.contextPath}/home/sign-up.htm"> Đăng nhập</a></button>
-                    <button><a  href="${pageContext.request.contextPath}/home/sign-up.htm"> Đăng kí</a></button>
+                <div class="login-bottom" style="margin-top: 20px;">
+                    	<span><a href="${pageContext.request.contextPath}/home/login.htm" style="color: black; font-size: 14px;">Đăng nhập?</a></span>
+                    	<span><a href="${pageContext.request.contextPath}/home/sign-up.htm" style="color: black; font-size: 14px;">Đăng kí?</a></span>
                 </div>
             </div>
         </div>
 	</div>
     <footer>
         <div class="footer-cont">
-            <img src="${pageContext.request.contextPath}/resources/img/logo/footer.svg" alt="">
+            <img src="${pageContext.request.contextPath}/resources/img/logo/FLogo1.PNG" alt="" height="200px" width="400px">
             <ul>
                 Sản phẩm
-                <li><a href="">Nam</a></li>
-                <li><a href="">Nữ</a></li>
-                <li><a href="">Thương hiệu</a></li>
-                <li><a href="">Sale-off</a></li>
-            </ul>
-            <ul>
-                Liên hệ
-                <li><a href="">Email : anshop@gmail.com</a></li>
-                <li><a href="">Hotline : 0966669999</a></li>
+                <li><a href="${pageContext.request.contextPath}/list/new.htm">News</li>
+                <li><a href="${pageContext.request.contextPath}/hlist/best.htm">Trending</a></li>
+                <li><a href="${pageContext.request.contextPath}/list/sale.htm">Sale-off</a></li>
             </ul>
             <ul>
                 Hỗ Trợ
@@ -120,8 +123,13 @@
                 <li><a href="">Chính sách chung</a></li>
                 <li><a href="">Tra cứu đơn hàng</a></li>
             </ul>
+            <ul>
+                Chăm sóc khách hàng
+                <li><a href="mailto:vonguyenduylong92.1415@gmail.com">Email : vonguyenduylong92.1415@gmail.com</a></li>
+                <li><a href="Tel: +84937220747">Hotline : 0937220747</a></li>
+            </ul>
         </div>
-        <h1>Copyright © 2021 AnShop. All rights reserved.</h1>
+        <span style="color: gray; font-size: 15px; font-weight: bold;">Copyright © 2021 DreakShop. All rights reserved.</span>
     </footer>
 </body>
 <script>

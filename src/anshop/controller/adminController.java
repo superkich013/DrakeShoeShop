@@ -75,12 +75,87 @@ public class adminController {
 	
 	@RequestMapping("donhang")
 	public String dh(Model model) {
-
+		this.getdh(model);
 		return "admin/donhang";
 	}
 	
 	@RequestMapping("group-product")
 	public String togpd() {
+		return "admin/group-product";
+	}
+	
+	@RequestMapping("deletegr")
+	public String deleteGroup(Model model, @RequestParam("idGroup") String idGroup) {
+		Session s = factory.openSession();
+		Transaction t = s.beginTransaction();
+		String hql = "from groupProduct ";
+		Query query = s.createQuery(hql);
+		List<groupProduct> list = query.list();
+		groupProduct gr  = new groupProduct();
+		tb="";
+		for (groupProduct a : list) {
+			if (a.getId().equals(idGroup)) {
+				gr = (groupProduct) s.load(groupProduct.class, idGroup);
+				
+			}
+		}
+		try {
+			s.delete(gr);
+			tb="Xóa thành công";
+			model.addAttribute("tb", tb);
+			t.commit();
+			this.getgr();
+		} catch (Exception e) {
+			t.rollback();
+			tb="Xóa thất bại";
+			model.addAttribute("tb", tb);
+		}
+		finally {
+			s.close();
+		}
+		return "redirect:/admin/group-product.htm";
+	}
+	
+	@RequestMapping(value = "editgr", method = RequestMethod.GET)
+	public String editGroup(Model model, @RequestParam("idGroup") String idGroup) {
+		Session s = factory.openSession();
+		Transaction t = s.beginTransaction();
+		String hql = "from groupProduct";
+		Query query = s.createQuery(hql);
+		List<groupProduct> list = query.list();
+		groupProduct gr  = new groupProduct();
+		tb="";
+		for (groupProduct a : list) {
+			if (a.getId().equals(idGroup)) {
+				gr = (groupProduct) s.load(groupProduct.class, idGroup);	
+			}
+		}
+		model.addAttribute("gr", gr);
+		return "admin/edit-gr";
+	}
+	
+	@RequestMapping(value = "editgr", method = RequestMethod.POST)
+	public String editGroup(Model model, HttpServletRequest re) {
+		groupProduct gpr = new groupProduct();
+		Session s = factory.openSession();
+		Transaction t = s.beginTransaction();
+		tb="";
+		try {
+				gpr.setId(re.getParameter("id"));
+				gpr.setName(re.getParameter("name"));
+				gpr.setContent(re.getParameter("content"));
+				gpr.setStatus(1);
+				s.update(gpr);
+				t.commit();
+				tb= "Sửa thành công !";
+				model.addAttribute("tb",tb);
+		} catch (Exception e) {
+			t.rollback();
+			tb="Sửa thất bại,vui lòng kiểm tra lại";
+			model.addAttribute("tb", tb);
+		} finally {
+			s.close();
+		}
 		return "admin/group-product";
 	}
 	
@@ -111,7 +186,7 @@ public class adminController {
 		} finally {
 			s.close();
 		}
-		return "redirect:/admin/product.htm";
+		return "redirect:/admin/group-product.htm";
 	}
 
 	@RequestMapping(value = "gr-product", method = RequestMethod.GET)
@@ -274,8 +349,7 @@ public class adminController {
 		Query query1 = s1.createQuery(hql1);
 		List<order> list1 = query1.list();
 		model.addAttribute("listdh1",list1);
-		model.addAttribute("listdh",list);
-		
+		model.addAttribute("listdh",list);		
 	}
 	public List<productDetail> loadlistgr(Model modela) {
 

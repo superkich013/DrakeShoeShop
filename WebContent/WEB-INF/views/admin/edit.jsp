@@ -16,7 +16,7 @@
 	<div class="header">
         <div class="container-header">
             <div class="left-header">
-                <img src=" ${pageContext.request.contextPath}/resources/img/logo/logo-sub.png" alt="">
+                <img src=" ${pageContext.request.contextPath}/resources/img/logo/HLogo.PNG" alt="">
             </div>
             <div class="right-header">
                 <ul>
@@ -34,7 +34,8 @@
            		<input style="display: none" type="text" value="${prd.id}" name="idSanPham" required>
                 <div class="input-fm">
                     <label><b>ID SP</b></label>
-                    <input style="width: 310px;height: 30px" type="text" value="${prd.product.id}" name="id" readonly="readonly" required>
+                    <input style="width: 310px;height: 30px" type="text" value="${prd.product.id}" readonly="readonly" required disabled="disabled">
+                    <input name="id" type="hidden" value="${prd.product.id}">
                 </div>
                 <div class="input-fm">
                     <label><b>Tên SP</b></label>

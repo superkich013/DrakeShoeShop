@@ -8,7 +8,7 @@
 <!-- CSS only -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" 
 integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-<title>Drake's Admin</title>
+<title>Quản lý sản phẩm</title>
 <base href="${pageContext.servletContext.contextPath }" />
 <style>
 <%@ include file="/resources/css/reset.css"%>
@@ -19,7 +19,7 @@ integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jI
 	    <div class="header">
         <div class="container-header">
             <div class="left-header">
-                <img src=" ${pageContext.request.contextPath}/resources/img/logo/logo-sub.png" alt="">
+                <img src=" ${pageContext.request.contextPath}/resources/img/logo/HLogo.PNG" alt="">
             </div>
             <div class="right-header">
                 <ul>
@@ -33,29 +33,6 @@ integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jI
     <div class="main">
         <div class="main-left">
             <h1>${tb}</h1>
-            <form class="add-pr" action="${pageContext.request.contextPath}/admin/gr-product.htm"  method="post">
-            <h1>Thêm Nhóm Sản phẩm</h1>
-            	<div class="input-fm">
-                    <label for="id"><b>ID nhóm sản phẩm :</b></label>
-                    <input name ="id">
-                </div>
-                <div class="input-fm">
-                    <label for="name"><b>Tên nhóm sản phẩm :</b></label>
-                    <input name ="name">
-                </div>
-                <div class="input-fm">
-                    <label for="content"><b>Nội dung nhóm sản phẩm :</b></label>
-                    <input name ="content">
-                </div>
-                
-                <div class = "type">  	
-                	<input type="radio" name = "brands" value="1">My brand
-					<input type="radio" name = "brands" value="0">Other brand
-				</div>
-				<div class="bt">
-					<button>Thêm nhóm SP</button>	
-				</div>
-            </form>
             <form  class="add-pr" action="${pageContext.request.contextPath}/admin/product.htm" method="POST" enctype="multipart/form-data">
             	<h1>Thêm sản phẩm</h1>
 			        <div class="input-fm">
@@ -150,7 +127,7 @@ integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jI
                 </tr>
                 <c:forEach var="a" items="${listpr}">
                 		<tr style="align-items: center;">              	
-                		<td> <img style="display: block;align: center;width: 80px;height: 80px" alt="" src="${pageContext.request.contextPath}/resources/img/pro/${a.product.img1}"></td>
+                		<td> <img style="align: center;width: 80px;height: 80px" alt="" src="${pageContext.request.contextPath}/resources/img/pro/${a.product.img1}"></td>
                 		<td>${a.product.id}</td>
                 		<td>${a.product.name}</td>
                 		<td>${a.product.groupProduct.name}</td>
@@ -165,7 +142,7 @@ integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jI
                 		<c:if test="${a.product.status==1}">
                 			<td>Đang bán</td>
                 		</c:if>
-                		<td><a title="Sửa sản phẩm" href="${pageContext.request.contextPath}/admin/editpr.htm?idSanPham=${a.id}&img1=${a.product.img1}&img2=${a.product.img2}&img3=${a.product.img3}" >Sửa</a> 
+                		<td><a title="Sửa sản phẩm" href="${pageContext.request.contextPath}/admin/editpr.htm?idSanPham=${a.id}&img1=${a.product.img1}&img2=${a.product.img2}&img3=${a.product.img3}" style="color: blue;">Sửa</a> 
                 		<br>
                 		<a href="${pageContext.request.contextPath}/admin/deletepr.htm?idSanPham=${a.id}" >Xóa Size</a> 
                 		<a href="${pageContext.request.contextPath}/admin/deletepr-all.htm?idSanPham=${a.id}">Xóa SP</a></td>	
