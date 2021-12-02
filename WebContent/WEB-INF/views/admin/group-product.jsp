@@ -30,7 +30,7 @@
             </div>
         </div>
     </div>
-      <div class="main">
+      <div class="main" style="display: flex; justify-content: center;">
         <div class="main-left">
             <h1>${tb}</h1>
             <form class="add-pr" action="${pageContext.request.contextPath}/admin/gr-product.htm"  method="post">
@@ -58,11 +58,12 @@
             </form>
         </div>
         <div class="main-right">
-           <table style="width:60%;text-align:center;border:1px solid black;margin-left:auto;margin-right:auto;" class="table table-hover">
+           <table style="width:60%;text-align:center;border:1px solid black;margin-left:20px;margin-right:auto;" class="table table-hover">
     		<thead class="thead-dark">
-    		<tr>
+    		<tr style="background-color: #2AC37D;">
     		<th>ID Nhóm sản phẩm</td>
     		<th>Tên nhóm sản phẩm</td>
+    		<th>Nội dung</td>
     		<th></th>
     		</tr>
     		</thead>
@@ -71,6 +72,7 @@
              <tr>
              <td style="border-left: thin solid; border-top: thin solid; border-bottom: thin solid;">${pn.id}</td>
              <td style="border-top: thin solid; border-bottom: thin solid;">${pn.name}</td>
+             <td style="border-top: thin solid; border-bottom: thin solid;">${pn.content}</td>
              <td><a title="Sửa sản phẩm" href="${pageContext.request.contextPath}/admin/editgr.htm?idGroup=${pn.id}" style="color: blue;">Sửa</a> 
              		<br>
                 		<a href="${pageContext.request.contextPath}/admin/deletegr.htm?idGroup=${pn.id}" style="color: red;" >Xóa</a> 	

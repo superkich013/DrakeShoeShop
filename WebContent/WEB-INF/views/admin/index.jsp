@@ -113,7 +113,7 @@ integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jI
         </div>
         <div class="main-right">
             <table class="table table-bg-level table-hover">
-                <tr>
+                <tr style="background-color: #2AC37D;">
                 	<th>Ảnh SP</th>
                     <th>Mã SP</th>
                     <th>Tên SP</th>

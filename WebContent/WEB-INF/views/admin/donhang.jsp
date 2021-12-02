@@ -31,9 +31,9 @@
         </div>
     </div>
     <div class="main">
-        <div class="main-right" style="width: 100%;">
-            <table class="table table-light table-hover">
-                <tr class="bg-info">
+        <div class="main-right" style="width: 100%; margin-left: 15px;">
+            <table class="table table-hover">
+                <tr style="background-color: #2AC37D;">
                 	<th>Mã đơn hàng</th>
                 	<th>Ngày</th>
                     <th>Tên KH</th>
