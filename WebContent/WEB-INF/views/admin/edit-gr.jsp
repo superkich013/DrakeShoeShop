@@ -24,6 +24,7 @@
                     <li><a href="../anshop-final/admin/product.htm">Sản phẩm</a></li>
                     <li><a href="../anshop-final/admin/group-product.htm">Nhóm sản phẩm</a></li>
                     <li><a href="../anshop-final/admin/user.htm">Thành viên</a></li>
+                    <li><a href="../anshop-final/admin/stats.htm">Thống kê</a></li>
                 </ul>
             </div>
         </div>
