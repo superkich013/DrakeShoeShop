@@ -1,4 +1,4 @@
-package anshop.controller;
+package shop.controller;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -59,12 +59,12 @@ public class OrderController {
 		try{
 			s.save(cus);
 			t.commit();
-			System.out.println("thêm");
-			model.addAttribute("message", "Thêm thành công");
+			System.out.println("thï¿½m");
+			model.addAttribute("message", "Thï¿½m thï¿½nh cï¿½ng");
 		}
 		catch(Exception e){
 			t.rollback();
-			model.addAttribute("message", "Không thành công");
+			model.addAttribute("message", "Khï¿½ng thï¿½nh cï¿½ng");
 			System.out.println("faile");
 		}
 		finally{

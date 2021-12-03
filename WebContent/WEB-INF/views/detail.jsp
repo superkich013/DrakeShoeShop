@@ -205,7 +205,7 @@
                 <li><a href="Tel: +84937220747">Hotline : 0937220747</a></li>
             </ul>
         </div>
-        <span style="color: gray; font-size: 15px; font-weight: bold;">Copyright © 2021 DreakShop. All rights reserved.</span>
+        <span style="color: gray; font-size: 15px; font-weight: bold;">Copyright © 2021 DrakeShop. All rights reserved.</span>
     </footer>
 </body>
 <script>

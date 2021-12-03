@@ -1,4 +1,4 @@
-package anshop.controller;
+package shop.controller;
 
 import java.io.File;
 import java.io.IOException;
