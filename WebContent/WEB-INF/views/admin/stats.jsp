@@ -35,54 +35,29 @@
 	        </div>
 	    </div>
     <div class="main">
-    	<div class="main-left"style="width: 0%; margin-right: 0px;">
-			<nav class="navbar bg-light">
-			
-			  <!-- Links -->
-			  <ul class="navbar-nav">
-			    <li class="nav-item">
-			      <a class="nav-link" href="#">Link 1</a>
-			    </li>
-			    <li class="nav-item">
-			      <a class="nav-link" href="#">Link 2</a>
-			    </li>
-			    <li class="nav-item">
-			      <a class="nav-link" href="#">Link 3</a>
-			    </li>
-			  </ul>
-			
-			</nav>
-    	</div>
         <div class="main-right" style="width: 100%; margin-left: 15px;">
         	<div class="col-8 offset-2 my-5">
-        	<h1 class="text-center text">THỐNG KÊ DOANH THU</h1>
+        	<h1 class="text-center text">THỐNG KÊ DOANH THU THÁNG ${monthOfYearin}</h1>
+        	<div>
+				<form action="${pageContext.request.contextPath}/admin/statsmonth.htm" method="get">
+					Tháng: <input type="month" name="month-stats" required> <input type="submit" value="Chọn">
+				</form>
+        	</div>
         		<div class="chart">
         			<div class="body-chart">
         				<div class= "main-right-right">
 							<canvas id="myStatsChart"></canvas>
 						</div>
-						<table class="table">
-				        	<tr>
-				        		<th>Ngày</th>
-				        		<th>Doanh thu</th>
-				        	</tr>
-				        	<c:forEach items="${stats}" var="c">
-					        	<tr>
-					        		<th>${c.date}</th>
-					        		<th>${c.total} vnđ</th>
-					        	</tr>
-				        	
-				        	</c:forEach>
-				        </table>
         				
 						<script>
 							let cateLables=[], cateInfo=[];
 							
-							<c:forEach items="${stats}" var="c">
-								cateLables.push('${c.date}');
-								cateInfo.push('${c.total}');
+							<c:forEach items="${smonth}" var="c">
+								cateLables.push('${c}');
 				        	</c:forEach>
-				        	
+				        	<c:forEach items="${smonthIn}" var="d">
+				        		cateInfo.push('${d}');
+			        		</c:forEach>
 							window.onload = function() {
 								cateChart("myStatsChart", cateLables, cateInfo);
 							}

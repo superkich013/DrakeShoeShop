@@ -2,8 +2,12 @@ package anshop.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -18,7 +22,6 @@ import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -81,6 +84,51 @@ public class adminController {
 		List<order> list = query.list();
 		return list;
 	}
+
+	@ModelAttribute("monthOfYear")
+	public String monthOfYear() {
+		Date dateLS = new Date();
+		Calendar c = Calendar.getInstance();
+		c.setTime(dateLS);
+		int monthLS = c.get(Calendar.MONTH);
+		int yearLS = c.get(Calendar.YEAR);
+		return String.valueOf(yearLS) + "-" + String.valueOf(monthLS + 1);
+	}
+	@SuppressWarnings({ "unchecked" })
+	@RequestMapping(value = "statsmonth", method = RequestMethod.GET)
+	public String StatsMonth(Model model, @RequestParam("month-stats") String month) {
+		if(month != "") {
+			int monthO = monthStats(month);
+			int yearO = yearStats(month);
+			int numDate = DateOfMonth(monthO, yearO);
+			String monthOfYear = String.valueOf(monthO) + "/" + String.valueOf(yearO);
+			Session s = factory.getCurrentSession();
+			String hql = "from order";
+			Query query = s.createQuery(hql);
+			List<order> list = query.list();
+			List<Integer> lsIn = new ArrayList<Integer>();
+			for (int i = 1; i <= numDate; i++) {
+				lsIn.add(i - 1, 0);
+				for(int j = 0; j < list.size(); j++) {
+					Date dateLS = list.get(j).getDate();
+					Calendar c = Calendar.getInstance();
+					c.setTime(dateLS);
+					int dayLS = c.get(Calendar.DAY_OF_MONTH);
+					int monthLS = c.get(Calendar.MONTH);
+					int yearLS = c.get(Calendar.YEAR);
+					if((monthO == monthLS + 1) && ( yearO == yearLS) && ( i == dayLS)) {
+						float resutl = lsIn.get(i - 1) + list.get(j).getTotal();
+						lsIn.set(i - 1, (int)resutl);
+					}
+				}
+			}
+			List<String> listDate = ListDateOfMonth(monthO, yearO);
+			model.addAttribute("monthOfYear", monthOfYear);
+			model.addAttribute("smonthIn", lsIn);
+			model.addAttribute("smonth", listDate);
+		}
+		return "admin/stats";
+	}
 	@RequestMapping("donhang")
 	public String dh(Model model) {
 		this.getdh(model);
@@ -88,8 +136,7 @@ public class adminController {
 	}
 	
 	@RequestMapping("stats")
-	public String tk(Model model) {
-//		this.getdh(model);
+	public String stats(Model model) {
 		return "admin/stats";
 	}
 	
@@ -609,5 +656,47 @@ public class adminController {
 			s.close();
 		}
 		return "redirect:/admin/user.htm";
+	}
+	public int monthStats(String MD) {
+        String[] parts = MD.split("-", 0);
+        return Integer.parseInt(parts[1]);
+	}
+	public int yearStats(String MD) {
+        String[] parts = MD.split("-", 0);
+        return Integer.parseInt(parts[0]);
+	}
+	public int DateOfMonth(int monthO, int yearO) {
+		int thang = monthO;
+		int nam = yearO;
+		switch (thang)
+	    {
+	    case 1:
+	    case 3:
+	    case 5:
+	    case 7:
+	    case 8:
+	    case 10:
+	    case 12:
+	        return 31;
+	    case 4:
+	    case 6:
+	    case 9:
+	    case 11:
+	        return 30;
+	    case 2:
+	        if ((nam % 4 == 0 && nam % 100 != 0) || nam % 400 == 0)
+	            return 29;
+	        else
+	            return 28;
+	    }
+		return -1;
+	}
+	public List<String> ListDateOfMonth(int monthO, int yearO){
+		List<String> listDate = new ArrayList<String>();
+		int totalDate = DateOfMonth(monthO, yearO);
+		for(int i = 1; i <= totalDate; i++) {
+			listDate.add(String.valueOf(i)+"-"+monthO+"-"+yearO);
+		}
+		return listDate;
 	}
 }
