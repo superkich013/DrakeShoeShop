@@ -13,7 +13,7 @@ function cateChart(id, cateLables=[], cateInfo=[]){
 	const data = {
 	  labels: cateLables,
 	  datasets: [{
-	    label: 'VNĐ',
+	    label: '',
 	    data: cateInfo,
 	    backgroundColor: colors,
 	    borderColor: colors,
@@ -21,7 +21,7 @@ function cateChart(id, cateLables=[], cateInfo=[]){
 	  }]
 	};
 	const config = {
-	  type: 'line',
+	  type: 'bar',
 	  data: data,
 	  options: {
 	    scales: {

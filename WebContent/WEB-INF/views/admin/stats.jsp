@@ -37,7 +37,7 @@
     <div class="main">
         <div class="main-right" style="width: 100%; margin-left: 15px;">
         	<div class="col-8 offset-2 my-5">
-        	<h1 class="text-center text">THỐNG KÊ DOANH THU THÁNG ${monthOfYearin}</h1>
+        	<h1 class="text-center">THỐNG KÊ DOANH THU THÁNG ${monthOfYearIn} </h1>
         	<div>
 				<form action="${pageContext.request.contextPath}/admin/statsmonth.htm" method="get">
 					Tháng: <input type="month" name="month-stats" required> <input type="submit" value="Chọn">

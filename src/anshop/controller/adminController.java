@@ -76,14 +76,6 @@ public class adminController {
 		List<groupProduct> list = query.list();
 		return list;
 	}
-	@ModelAttribute("stats")
-	public List<order> getStats() {
-		Session s = factory.getCurrentSession();
-		String hql = "from order";
-		Query query = s.createQuery(hql);
-		List<order> list = query.list();
-		return list;
-	}
 
 	@ModelAttribute("monthOfYear")
 	public String monthOfYear() {
@@ -123,7 +115,7 @@ public class adminController {
 				}
 			}
 			List<String> listDate = ListDateOfMonth(monthO, yearO);
-			model.addAttribute("monthOfYear", monthOfYear);
+			model.addAttribute("monthOfYearIn", monthOfYear);
 			model.addAttribute("smonthIn", lsIn);
 			model.addAttribute("smonth", listDate);
 		}
