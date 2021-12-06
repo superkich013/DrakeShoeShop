@@ -31,7 +31,7 @@ public class order {
 	@Column(name="Total")
 	private Float total;
 	@Temporal(TemporalType.DATE)
-	@DateTimeFormat(pattern = "MM/dd/yyyy")
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	@Column(name="Date")
 	private Date date;
 	@Column(name="Status")
