@@ -44,30 +44,29 @@ public class adminController {
 	SessionFactory factory;
 	@Autowired
 	ServletContext context;
-	
+
 	@RequestMapping("")
 	public String check() {
 		return "admin/login";
 	}
-	
+
 	@RequestMapping("login")
-	public String login(HttpServletRequest request)
-	{
+	public String login(HttpServletRequest request) {
 		String id = request.getParameter("id");
 		String pw = request.getParameter("password");
 		Session session = factory.getCurrentSession();
 		List<admin> admin = new ArrayList<admin>();
-        admin = session.createQuery("from Admin where AdminName=?")
-                .setParameter(0, id).list();
-        for (int i = 0; i < admin.size();i++) {
-        	if(id.equals(admin.get(i).getAdminName())&&pw.equals(admin.get(i).getPassword())) {
-    			return "admin/index";
-    		}
-        } 
-		request.setAttribute("message","Sai thông tin đăng nhập");
+		admin = session.createQuery("from Admin where AdminName=?")
+				.setParameter(0, id).list();
+		for (int i = 0; i < admin.size(); i++) {
+			if (id.equals(admin.get(i).getAdminName()) && pw.equals(admin.get(i).getPassword())) {
+				return "admin/index";
+			}
+		}
+		request.setAttribute("message", "Sai thông tin đăng nhập");
 		return "admin/login";
 	}
-	
+
 	@ModelAttribute("grpr")
 	public List<groupProduct> getgr() {
 		Session s = factory.getCurrentSession();
@@ -86,10 +85,11 @@ public class adminController {
 		int yearLS = c.get(Calendar.YEAR);
 		return String.valueOf(yearLS) + "-" + String.valueOf(monthLS + 1);
 	}
+
 	@SuppressWarnings({ "unchecked" })
 	@RequestMapping(value = "statsmonth", method = RequestMethod.GET)
 	public String StatsMonth(Model model, @RequestParam("month-stats") String month) {
-		if(month != "") {
+		if (month != "") {
 			int monthO = monthStats(month);
 			int yearO = yearStats(month);
 			int numDate = DateOfMonth(monthO, yearO);
@@ -101,16 +101,16 @@ public class adminController {
 			List<Integer> lsIn = new ArrayList<Integer>();
 			for (int i = 1; i <= numDate; i++) {
 				lsIn.add(i - 1, 0);
-				for(int j = 0; j < list.size(); j++) {
+				for (int j = 0; j < list.size(); j++) {
 					Date dateLS = list.get(j).getDate();
 					Calendar c = Calendar.getInstance();
 					c.setTime(dateLS);
 					int dayLS = c.get(Calendar.DAY_OF_MONTH);
 					int monthLS = c.get(Calendar.MONTH);
 					int yearLS = c.get(Calendar.YEAR);
-					if((monthO == monthLS + 1) && ( yearO == yearLS) && ( i == dayLS)) {
+					if ((monthO == monthLS + 1) && (yearO == yearLS) && (i == dayLS)) {
 						float resutl = lsIn.get(i - 1) + list.get(j).getTotal();
-						lsIn.set(i - 1, (int)resutl);
+						lsIn.set(i - 1, (int) resutl);
 					}
 				}
 			}
@@ -121,22 +121,23 @@ public class adminController {
 		}
 		return "admin/stats";
 	}
+
 	@RequestMapping("donhang")
 	public String dh(Model model) {
 		this.getdh(model);
 		return "admin/donhang";
 	}
-	
+
 	@RequestMapping("stats")
 	public String stats(Model model) {
 		return "admin/stats";
 	}
-	
+
 	@RequestMapping("group-product")
 	public String togpd() {
 		return "admin/group-product";
 	}
-	
+
 	@RequestMapping("deletegr")
 	public String deleteGroup(Model model, @RequestParam("idGroup") String idGroup) {
 		Session s = factory.openSession();
@@ -144,31 +145,30 @@ public class adminController {
 		String hql = "from groupProduct ";
 		Query query = s.createQuery(hql);
 		List<groupProduct> list = query.list();
-		groupProduct gr  = new groupProduct();
-		tb="";
+		groupProduct gr = new groupProduct();
+		tb = "";
 		for (groupProduct a : list) {
 			if (a.getId().equals(idGroup)) {
 				gr = (groupProduct) s.load(groupProduct.class, idGroup);
-				
+
 			}
 		}
 		try {
 			s.delete(gr);
-			tb="Xóa thành công";
+			tb = "Xóa thành công";
 			model.addAttribute("tb", tb);
 			t.commit();
 			this.getgr();
 		} catch (Exception e) {
 			t.rollback();
-			tb="Xóa thất bại";
+			tb = "Xóa thất bại";
 			model.addAttribute("tb", tb);
-		}
-		finally {
+		} finally {
 			s.close();
 		}
 		return "redirect:/admin/group-product.htm";
 	}
-	
+
 	@RequestMapping(value = "editgr", method = RequestMethod.GET)
 	public String editGroup(Model model, @RequestParam("idGroup") String idGroup) {
 		Session s = factory.openSession();
@@ -176,49 +176,50 @@ public class adminController {
 		String hql = "from groupProduct";
 		Query query = s.createQuery(hql);
 		List<groupProduct> list = query.list();
-		groupProduct gr  = new groupProduct();
-		tb="";
+		groupProduct gr = new groupProduct();
+		tb = "";
 		for (groupProduct a : list) {
 			if (a.getId().equals(idGroup)) {
-				gr = (groupProduct) s.load(groupProduct.class, idGroup);	
+				gr = (groupProduct) s.load(groupProduct.class, idGroup);
 			}
 		}
 		model.addAttribute("gr", gr);
 		return "admin/edit-gr";
 	}
-	
+
 	@RequestMapping(value = "editgr", method = RequestMethod.POST)
 	public String editGroup(Model model, HttpServletRequest re) {
 		groupProduct gpr = new groupProduct();
 		Session s = factory.openSession();
 		Transaction t = s.beginTransaction();
-		tb="";
+		tb = "";
 		try {
-				gpr.setId(re.getParameter("id"));
-				gpr.setName(re.getParameter("name"));
-				gpr.setContent(re.getParameter("content"));
-				gpr.setStatus(1);
-				s.update(gpr);
-				t.commit();
-				tb= "Sửa thành công !";
-				model.addAttribute("tb",tb);
+			gpr.setId(re.getParameter("id"));
+			gpr.setName(re.getParameter("name"));
+			gpr.setContent(re.getParameter("content"));
+			gpr.setStatus(1);
+			s.update(gpr);
+			t.commit();
+			tb = "Sửa thành công !";
+			model.addAttribute("tb", tb);
 		} catch (Exception e) {
 			t.rollback();
-			tb="Sửa thất bại,vui lòng kiểm tra lại";
+			tb = "Sửa thất bại,vui lòng kiểm tra lại";
 			model.addAttribute("tb", tb);
 		} finally {
 			s.close();
 		}
 		return "admin/group-product";
 	}
-	
-	String tb="";
+
+	String tb = "";
+
 	@RequestMapping(value = "gr-product", method = RequestMethod.POST)
 	public String them(Model model, HttpServletRequest re) {
 		groupProduct gpr = new groupProduct();
 		Session s = factory.openSession();
 		Transaction t = s.beginTransaction();
-		tb="";
+		tb = "";
 		try {
 			if (s.get(groupProduct.class, re.getParameter("id").trim()) == null) {
 				gpr.setId(re.getParameter("id"));
@@ -227,14 +228,14 @@ public class adminController {
 				gpr.setStatus(1);
 				s.save(gpr);
 				t.commit();
-				tb= "Thêm nhóm thành công !";
-				model.addAttribute("tb",tb);
+				tb = "Thêm nhóm thành công !";
+				model.addAttribute("tb", tb);
 			} else {
 				model.addAttribute("tb", "Nhóm sản phẩm đã tồn tại , vui lòng thử lại");
 			}
 		} catch (Exception e) {
 			t.rollback();
-			tb="Thêm thất bại,vui lòng kiểm tra lại";
+			tb = "Thêm thất bại,vui lòng kiểm tra lại";
 			model.addAttribute("tb", tb);
 		} finally {
 			s.close();
@@ -254,7 +255,7 @@ public class adminController {
 
 	@RequestMapping(value = "product", method = RequestMethod.GET)
 	public String loadthem(Model model, HttpServletRequest re, @ModelAttribute("prod") product pr) {
-		model.addAttribute("tb",tb);
+		model.addAttribute("tb", tb);
 		return "admin/index";
 	}
 
@@ -284,14 +285,14 @@ public class adminController {
 		product pr = new product();
 		Session s = factory.openSession();
 		Transaction t = s.beginTransaction();
-		tb="";
+		tb = "";
 		if (img1.isEmpty() || img2.isEmpty() || img3.isEmpty()) {
 			model.addAttribute("tb", "Vui lòng chọn đầy đủ hình ảnh");
 		} else {
 			Integer sale;
 			int price = Integer.parseInt(re.getParameter("p"));
 			sale = Integer.parseInt(re.getParameter("s"));
-			
+
 			try {
 				pr.setGroupProduct((groupProduct) s.get(groupProduct.class, re.getParameter("grid")));
 				pr.setDate(new Date());
@@ -317,12 +318,12 @@ public class adminController {
 				pr.setImg3(img3.getOriginalFilename());
 				s.save(pr);
 				t.commit();
-				tb="Thêm SP thành công";
+				tb = "Thêm SP thành công";
 				model.addAttribute("tb", tb);
 				getpr(model);
 			} catch (Exception e) {
 				t.rollback();
-				tb="Thêm thất bại !";
+				tb = "Thêm thất bại !";
 				model.addAttribute("tb", tb);
 			} finally {
 				loadlistgr(model);
@@ -337,7 +338,7 @@ public class adminController {
 		productDetail prd = new productDetail();
 		Session s = factory.openSession();
 		Transaction t = s.beginTransaction();
-		tb="";
+		tb = "";
 		try {
 
 			prd.setQuanlity(Integer.parseInt(re.getParameter("quanlity")));
@@ -345,21 +346,19 @@ public class adminController {
 			prd.setProduct((product) s.get(product.class, re.getParameter("prid")));
 			s.save(prd);
 			t.commit();
-			tb="Thêm chi tiết thành công !";
+			tb = "Thêm chi tiết thành công !";
 			model.addAttribute("tb", tb);
 			loadlistgr(model);
 
 		} catch (Exception e) {
 			t.rollback();
-			tb="Thêm thất bại !";
+			tb = "Thêm thất bại !";
 			model.addAttribute("tb", tb);
 		} finally {
 			s.close();
 		}
 		return "redirect:/admin/product.htm";
 	}
-
-	
 
 	@ModelAttribute("prr")
 	public List<product> getgrr() {
@@ -369,13 +368,15 @@ public class adminController {
 		List<product> list = query.list();
 		return list;
 	}
+
 	public void getpr(Model model) {
 		Session s = factory.getCurrentSession();
 		String hql = "from product";
 		Query query = s.createQuery(hql);
 		List<product> list = query.list();
-		model.addAttribute("prr",list);
+		model.addAttribute("prr", list);
 	}
+
 	@ModelAttribute("listpr")
 	public List<productDetail> getlistgr() {
 		Session s = factory.getCurrentSession();
@@ -384,6 +385,7 @@ public class adminController {
 		List<productDetail> list = query.list();
 		return list;
 	}
+
 	@ModelAttribute("listdh")
 	public List<orderDetail> getlistdh() {
 		Session s = factory.getCurrentSession();
@@ -392,6 +394,7 @@ public class adminController {
 		List<orderDetail> list = query.list();
 		return list;
 	}
+
 	public void getdh(Model model) {
 		Session s = factory.getCurrentSession();
 		String hql = "from orderDetail ";
@@ -401,9 +404,10 @@ public class adminController {
 		String hql1 = "from order";
 		Query query1 = s1.createQuery(hql1);
 		List<order> list1 = query1.list();
-		model.addAttribute("listdh1",list1);
-		model.addAttribute("listdh",list);		
+		model.addAttribute("listdh1", list1);
+		model.addAttribute("listdh", list);
 	}
+
 	public List<productDetail> loadlistgr(Model modela) {
 
 		Session s = factory.getCurrentSession();
@@ -413,6 +417,7 @@ public class adminController {
 		modela.addAttribute("listpr", list);
 		return list;
 	}
+
 	@RequestMapping("deleteod")
 	public String deleteod(Model model, @RequestParam("id") int id) {
 		Session s = factory.openSession();
@@ -424,7 +429,7 @@ public class adminController {
 		for (order a : list) {
 			if (a.getId() == id) {
 				od = (order) s.load(order.class, id);
-				
+
 			}
 		}
 		try {
@@ -432,13 +437,13 @@ public class adminController {
 			t.commit();
 		} catch (Exception e) {
 			t.rollback();
-		}
-		finally {
+		} finally {
 			s.close();
 			getdh(model);
 		}
 		return "admin/donhang";
 	}
+
 	@RequestMapping("xacnhan")
 	public String xacnhanod(Model model, @RequestParam("id") int id) {
 		Session s = factory.openSession();
@@ -458,13 +463,13 @@ public class adminController {
 			t.commit();
 		} catch (Exception e) {
 			t.rollback();
-		}
-		finally {
+		} finally {
 			s.close();
 			getdh(model);
 		}
 		return "admin/donhang";
 	}
+
 	@RequestMapping("deletepr")
 	public String deletepr(Model model, @RequestParam("idSanPham") int idSanPham) {
 		Session s = factory.openSession();
@@ -472,29 +477,29 @@ public class adminController {
 		String hql = "from productDetail ";
 		Query query = s.createQuery(hql);
 		List<productDetail> list = query.list();
-		productDetail prd  = new productDetail();
-		tb="";
+		productDetail prd = new productDetail();
+		tb = "";
 		for (productDetail a : list) {
 			if (a.getId() == idSanPham) {
 				prd = (productDetail) s.load(productDetail.class, idSanPham);
-				
+
 			}
 		}
 		try {
 			s.delete(prd);
-			tb="Xóa thành công";
+			tb = "Xóa thành công";
 			model.addAttribute("tb", tb);
 			t.commit();
 		} catch (Exception e) {
 			t.rollback();
-			tb="Xóa thất bại";
+			tb = "Xóa thất bại";
 			model.addAttribute("tb", tb);
-		}
-		finally {
+		} finally {
 			s.close();
 		}
 		return "redirect:/admin/product.htm";
 	}
+
 	@RequestMapping("deletepr-all")
 	public String deleteall(Model model, @RequestParam("idSanPham") int idSanPham) {
 		Session s = factory.openSession();
@@ -502,32 +507,32 @@ public class adminController {
 		String hql = "from productDetail ";
 		Query query = s.createQuery(hql);
 		List<productDetail> list = query.list();
-		productDetail prd  = new productDetail();
+		productDetail prd = new productDetail();
 		product pr = new product();
-		tb="";
+		tb = "";
 		for (productDetail a : list) {
 			if (a.getId() == idSanPham) {
 				prd = (productDetail) s.load(productDetail.class, idSanPham);
-				pr = (product) s.load(product.class,prd.getProduct().getId());
-				
+				pr = (product) s.load(product.class, prd.getProduct().getId());
+
 			}
 		}
 		try {
 			s.delete(prd);
 			s.delete(pr);
-			tb= "Xóa thành công";
-			model.addAttribute("tb",tb);
+			tb = "Xóa thành công";
+			model.addAttribute("tb", tb);
 			t.commit();
 		} catch (Exception e) {
 			t.rollback();
-			tb= "Xóa thất bại";
-			model.addAttribute("tb",tb);
-		}
-		finally {
+			tb = "Xóa thất bại";
+			model.addAttribute("tb", tb);
+		} finally {
 			s.close();
 		}
 		return "redirect:/admin/product.htm";
 	}
+
 	@RequestMapping(value = "editpr", method = RequestMethod.POST)
 	public String editpr(Model model, HttpServletRequest re, @RequestParam("img1") MultipartFile img1,
 			@RequestParam("img2") MultipartFile img2, @RequestParam("img3") MultipartFile img3)
@@ -540,7 +545,7 @@ public class adminController {
 		Transaction t1 = s1.beginTransaction();
 		List<productDetail> list = query.list();
 		productDetail prd = new productDetail();
-		tb="";
+		tb = "";
 		product pr = new product();
 		groupProduct gpr = new groupProduct();
 		int idSanPham = Integer.parseInt(re.getParameter("idSanPham"));
@@ -590,13 +595,13 @@ public class adminController {
 			s.update(prd);
 			t.commit();
 			t1.commit();
-			tb="Cập nhật SP thành công !";
-			model.addAttribute("tb",tb );
+			tb = "Cập nhật SP thành công !";
+			model.addAttribute("tb", tb);
 		} catch (Exception e) {
 			t.rollback();
 			t1.rollback();
-			tb="Cập nhật thất bại,vui lòng kiểm tra lại";
-			model.addAttribute("tb",tb );
+			tb = "Cập nhật thất bại,vui lòng kiểm tra lại";
+			model.addAttribute("tb", tb);
 		} finally {
 			s.close();
 			s1.close();
@@ -605,7 +610,7 @@ public class adminController {
 		}
 		return "redirect:/admin/product.htm";
 	}
-	
+
 	@RequestMapping("user")
 	public String user(Model model) {
 		Session s = factory.openSession();
@@ -616,7 +621,7 @@ public class adminController {
 		model.addAttribute("userlist", userlist);
 		return "admin/user";
 	}
-	
+
 	@RequestMapping("deleteuser")
 	public String deleteUser(Model model, @RequestParam("username") String username) {
 		Session s = factory.openSession();
@@ -624,69 +629,71 @@ public class adminController {
 		String hql = "from user ";
 		Query query = s.createQuery(hql);
 		List<user> list = query.list();
-		user gr  = new user();
-		tb="";
+		user gr = new user();
+		tb = "";
 		System.out.print(username);
 		for (user a : list) {
 			if (a.getUsername().equals(username)) {
 				gr = (user) s.load(user.class, username);
-				
+
 			}
 		}
 		try {
 			s.delete(gr);
-			tb="Xóa thành công";
+			tb = "Xóa thành công";
 			model.addAttribute("tb", tb);
 			t.commit();
 			this.getgr();
 		} catch (Exception e) {
 			t.rollback();
-			tb="Xóa thất bại";
+			tb = "Xóa thất bại";
 			model.addAttribute("tb", tb);
-		}
-		finally {
+		} finally {
 			s.close();
 		}
 		return "redirect:/admin/user.htm";
 	}
+
 	public int monthStats(String MD) {
-        String[] parts = MD.split("-", 0);
-        return Integer.parseInt(parts[1]);
+		String[] parts = MD.split("-", 0);
+		return Integer.parseInt(parts[1]);
 	}
+
 	public int yearStats(String MD) {
-        String[] parts = MD.split("-", 0);
-        return Integer.parseInt(parts[0]);
+		String[] parts = MD.split("-", 0);
+		return Integer.parseInt(parts[0]);
 	}
+
 	public int DateOfMonth(int monthO, int yearO) {
 		int thang = monthO;
 		int nam = yearO;
-		switch (thang)
-	    {
-	    case 1:
-	    case 3:
-	    case 5:
-	    case 7:
-	    case 8:
-	    case 10:
-	    case 12:
-	        return 31;
-	    case 4:
-	    case 6:
-	    case 9:
-	    case 11:
-	        return 30;
-	    case 2:
-	        if ((nam % 4 == 0 && nam % 100 != 0) || nam % 400 == 0)
-	            return 29;
-	        else
-	            return 28;
-	    }
+		switch (thang) {
+			case 1:
+			case 3:
+			case 5:
+			case 7:
+			case 8:
+			case 10:
+			case 12:
+				return 31;
+			case 4:
+			case 6:
+			case 9:
+			case 11:
+				return 30;
+			case 2:
+				if ((nam % 4 == 0 && nam % 100 != 0) || nam % 400 == 0)
+					return 29;
+				else
+					return 28;
+		}
 		return -1;
 	}
-	public List<String> ListDateOfMonth(int monthO, int yearO){
+
+	public List<String> ListDateOfMonth(int monthO, int yearO) {
 		List<String> listDate = new ArrayList<String>();
 		int totalDate = DateOfMonth(monthO, yearO);
-		for(int i = 1; i <= totalDate; i++) {
+		for (int i = 1; i <= totalDate; i++) {
 			listDate.add(String.valueOf(i));
 		}
 		return listDate;
