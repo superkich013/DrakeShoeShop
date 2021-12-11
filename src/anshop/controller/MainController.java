@@ -426,6 +426,7 @@ public class MainController {
 	public String quen(ModelMap model) {
 		return "forgetpass";
 	}
+	
 	@Autowired
 	JavaMailSender mailer;
 	@RequestMapping(value = "forget-pass" ,method = RequestMethod.POST)
@@ -447,9 +448,7 @@ public class MainController {
 					kiemtra= false;
 					/// update vào sql
 					t.commit();
-					/////gửi tới mail có cái autowire ở trên cùng nhớ xem
-					////////////////////////////////////
-					//////////////////////////////////////
+
 					Date date = new Date();
 					String from="drakeshop465@gmail.com";
 					String to=mailgui;
@@ -517,6 +516,7 @@ public class MainController {
 			return "user-login";
 		}
 	}
+	
 	@RequestMapping(value = "login" ,method=RequestMethod.GET)
 	public String dangnhhap1(HttpServletRequest re, ModelMap model,@ModelAttribute("User") user us) {
 		username = "Guest";

@@ -569,6 +569,7 @@ public class MainController {
 					}
 	}
 	
+	
 	@RequestMapping(value = "user" , method = RequestMethod.GET)
 	public String userDetail(HttpServletRequest re, ModelMap model, @RequestParam("username") String usern) {
 		model.addAttribute("username", username);
